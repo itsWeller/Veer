@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/VeerBikeApp/VeerBikeApp.iml" filepath="$PROJECT_DIR$/VeerBikeApp/VeerBikeApp.iml" />
+      <module fileurl="file://$PROJECT_DIR$/VeerBikeAppProject.iml" filepath="$PROJECT_DIR$/VeerBikeAppProject.iml" />
+    </modules>
+  </component>
+</project>
+

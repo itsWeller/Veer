@@ -1,15 +1,20 @@
 package com.example.veerbikeapp;
 
 import android.app.Activity;
-import android.app.ActionBar;
-import android.app.Fragment;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
+import android.location.LocationManager;
 import android.os.Bundle;
-import android.view.LayoutInflater;
+import android.os.StrictMode;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.os.Build;
+import android.widget.Button;
+import android.widget.EditText;
+
+import com.example.veerbikeapp.gson_classes.Step;
 
 public class MainActivity extends Activity {
 
@@ -18,11 +23,31 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        if (savedInstanceState == null) {
-            getFragmentManager().beginTransaction()
-                    .add(R.id.container, new PlaceholderFragment())
-                    .commit();
-        }
+
+        final EditText destination = (EditText) findViewById(R.id.editText);
+        final Button confirmDestination = (Button) findViewById(R.id.button);
+
+        final LocationManager manager = (LocationManager) getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
+
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+
+        confirmDestination.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v) {
+                ParseDestination myDest = new ParseDestination(destination.getText().toString());
+
+                if(myDest.response.status.equals("OK")){
+                    for(Step step:myDest.response.routes.get(0).legs.get(0).steps){
+                        //Log.e("URGENT",Double.toString(step.destination.latitude) + " , " +Double.toString(step.destination.longitude));
+                        //manager.addProximityAlert(step.destination.latitude,step.destination.longitude,10,1000,null);
+                    }
+                }
+            }
+        });
+
+
     }
 
 
@@ -44,22 +69,6 @@ public class MainActivity extends Activity {
             return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    /**
-     * A placeholder fragment containing a simple view.
-     */
-    public static class PlaceholderFragment extends Fragment {
-
-        public PlaceholderFragment() {
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-            return rootView;
-        }
     }
 
 }
